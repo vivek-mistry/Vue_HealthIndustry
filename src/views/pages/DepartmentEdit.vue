@@ -5,12 +5,12 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>Department Add</h1>
+                        <h1>Department Update</h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
-                            <li class="breadcrumb-item active">Department Add</li>
+                            <li class="breadcrumb-item active">Department Update</li>
                         </ol>
                     </div>
                 </div>
@@ -23,8 +23,8 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="card">
-                            <div class="card-header">
-                                <!-- <h3 class="card-title">DataTable with minimal features & hover style</h3> -->
+                            <div class="card-header" @department_edit_data = "departmentEdit">
+                                <h3 class="card-title">DataTable with minimal features & hover style</h3>
                             </div>
                             <!-- /.card-header -->
                             <div class="card-body">
@@ -33,7 +33,8 @@
                                     <div class="row">
                                         <div class="col-6">
                                             <div class="form-group">
-                                                <input type="text" class="form-control" v-model="department.name" placeholder="Name">
+                                                
+                                                <input type="text" class="form-control"  placeholder="Name">
                                             </div>
 
                                         </div>
@@ -42,15 +43,15 @@
                                     <div class="row">
                                         <div class="col-6">
                                             <div class="form-group">
-                                                <textarea class="form-control" v-model="department.description" placeholder="Description"></textarea>
+                                                <textarea class="form-control"  placeholder="Description"></textarea>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-6">
                                             <div class="form-group">
-                                                <input type="radio" name="gender" v-model="department.status" value="1"> Active
-                                                <input type="radio" name="gender" v-model="department.status" value="0"> Inactive
+                                                <input type="radio" name="gender"  value="1"> Active
+                                                <input type="radio" name="gender"  value="0"> Inactive
                                             </div>
                                         </div>
                                     </div>
@@ -82,23 +83,48 @@
 
 <script>
 import axios from "axios"; 
+
 export default {
-    name: "DepartmentAdd",
+    name: "DepartmentEdit",
+    
+    // props: ['department'],
+    // props:{
+    //     department: {}
+    // },
+    // setup(props) {
+    //     console.log(props)
+    // },  
     data(){
         return{
-            department:{
+            department_edit:{
                 name: null,
                 description: null,
                 status : null
             }
         }
+    },mounted() {
+        // console.log(this.$router.query)
+        // this.$emitt('department', (data) => {
+        //     this.department = data;
+        // })
+         
     },
+    // computed: {
+    // item() {
+    //     console.log(JSON.parse(this.$route.params.department)) 
+    // }
+    // },
     methods: {
         createDepartment(e){
             e.preventDefault();
             
             let result = axios.post("v1/department/store", this.department);
             this.$router.push( {name: 'DepartmentList'});
+        },
+        departmentEdit(emit){
+            console.log(emit);
+            this.department_edit = emit;
+
         }
     },
 }

@@ -9,6 +9,7 @@ import PatientAddVue from '@/views/pages/PatientAdd.vue'
 import PatientListVue from '@/views/pages/PatientList.vue'
 import DepartmentListVue from '@/views/pages/DepartmentList.vue'
 import DepartmentAddVue from '@/views/pages/DepartmentAdd.vue'
+import DepartmentEditVue from '@/views/pages/DepartmentEdit.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -57,6 +58,12 @@ const router = createRouter({
           path: 'department/list',
           name: "DepartmentList",
           component: DepartmentListVue
+        },
+        {
+          path: 'department/edit',
+          name: "DepartmentEdit",
+          props:true,
+          component: DepartmentEditVue
         },
         {
           path: 'department/add',
