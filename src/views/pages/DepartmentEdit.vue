@@ -83,6 +83,7 @@
 
 <script>
 import axios from "axios"; 
+import { DepartmentService } from '../../services/DepartmentService';
 
 export default {
     name: "DepartmentEdit",
@@ -104,13 +105,18 @@ export default {
         updateDepartment(e){
             e.preventDefault();
             
-            let result = axios.put("v1/department/update/"+this.department.id, this.department);
+            // let result = axios.put("v1/department/update/"+this.department.id, this.department);
+            let result = DepartmentService.update(this.department.id, this.department)
             this.$router.push( {name: 'DepartmentList'});
         },
         async departmentEdit(){
-            let response = await axios.get("v1/department/edit/"+this.$route.params.id);
-            console.log("this.department", response);
-            this.department = response.data.data;
+            // let response = await axios.get("v1/department/edit/"+this.$route.params.id);
+            DepartmentService.getById(this.$route.params.id).then(response => {
+                this.department = response;
+            });
+            // console.log(this.department_list);
+            // console.log("this.department", response);
+            // this.department = response.data.data;
         }
     },
 }

@@ -82,6 +82,7 @@
 
 <script>
     import axios from "axios";
+    import {DepartmentService} from '@/services/DepartmentService'
     // import { bus } from '../main'
     export default {
         name: "DepartmentList",
@@ -93,13 +94,18 @@
                 department: {},
             }
         },
-        async mounted() {
-            this.$forceUpdate();
-            let result = await axios.get("v1/department/list");
-            console.log(result);
-            if (result.data.status) {
-                this.department_list = result.data.data;
-            }
+        mounted() {
+            DepartmentService.getAll().then(response => {
+                this.department_list = response;
+            });
+            console.log(this.department_list);
+            /*let result = axios.get("v1/department/list").then(response => {
+                this.department_list = response.data.data
+            });*/
+            // console.log(result);
+            // if (result.data.status) {
+            //     this.department_list = result.data.data;
+            // }
         },
         methods: {
             edit(id) {

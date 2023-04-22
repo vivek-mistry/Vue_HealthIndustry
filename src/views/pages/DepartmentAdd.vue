@@ -82,6 +82,7 @@
 
 <script>
 import axios from "axios"; 
+import { DepartmentService } from '../../services/DepartmentService';
 export default {
     name: "DepartmentAdd",
     data(){
@@ -96,8 +97,8 @@ export default {
     methods: {
         createDepartment(e){
             e.preventDefault();
-            
-            let result = axios.post("v1/department/store", this.department);
+            DepartmentService.store(this.department);
+            // let result = axios.post("v1/department/store", this.department);
             this.$router.push( {name: 'DepartmentList'});
         }
     },
