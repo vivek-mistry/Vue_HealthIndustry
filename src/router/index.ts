@@ -60,7 +60,7 @@ const router = createRouter({
           component: DepartmentListVue
         },
         {
-          path: 'department/edit',
+          path: 'department/edit/:id',
           name: "DepartmentEdit",
           props:true,
           component: DepartmentEditVue

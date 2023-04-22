@@ -26,7 +26,8 @@
                             <div class="card-header">
                                 <!-- <h3 class="pull-left card-title">DataTable with minimal features & hover style</h3> -->
                                 <span class="">
-                                    <router-link :to="{ name: 'DepartmentAdd' }" class="pull-right btn btn-primary">ADD Department</router-link>
+                                    <router-link :to="{ name: 'DepartmentAdd' }" class="pull-right btn btn-primary">ADD
+                                        Department</router-link>
                                 </span>
                             </div>
                             <!-- /.card-header -->
@@ -42,26 +43,31 @@
                                     </thead>
                                     <tbody>
                                         <tr v-for="department in department_list">
-                                            <td>{{ department.name }}</td>
-                                            <td>{{ department.description }}</td>
-                                            <td>{{ department.status == 1 ? "Active" : "Inactive" }}</td>
-                                            
+                                            <td>{{ department . name }}</td>
+                                            <td>{{ department . description }}</td>
+                                            <td>{{ department . status == 1 ? 'Active' : 'Inactive' }}</td>
+
                                             <td>
-                                                <a @click="edit(department)">
+                                                <!-- <a @click="edit(department)">
                                                     Edit
-                                                </a> | 
-                                                Delete
-                                                </td>
+                                                </a> |  -->
+                                                <!-- <router-link :to="{ path: '/department/edit/'+ department.id}">Edit</router-link> -->
+                                                <!-- <router-link ">Delete</router-link> -->
+                                                <!-- <button
+                                                    @click="$router.push({ name: 'DepartmentEdit', id: department.id })">Edit</button> -->
+                                                <button class="btn btn-primary btn-sm" @click="edit(department.id)">Edit</button>
+                                                <button class="btn btn-danger btn-sm" @click="remove(department.id)">Delete</button>
+                                            </td>
                                         </tr>
                                     </tbody>
-                                    
+
                                 </table>
                             </div>
                             <!-- /.card-body -->
                         </div>
                         <!-- /.card -->
 
-                        
+
                     </div>
                     <!-- /.col -->
                 </div>
@@ -75,37 +81,37 @@
 
 
 <script>
-import axios from "axios"; 
-// import { bus } from '../main'
-export default {
-    name: "DepartmentList",
-    props: ['department'],
-    data(){
-        return{
-            department_id: null,
-            department_list : [],
-            department: {},
-        }
-    },
-    async mounted(){
-        let result = await axios.get("v1/department/list");
-        console.log(result);
-        if(result.data.status)
-        {
-            this.department_list = result.data.data;
-        }
-    },
-    methods:{
-        remove(id){
-            result = axios.get("v1/department/remove/"+id);
+    import axios from "axios";
+    // import { bus } from '../main'
+    export default {
+        name: "DepartmentList",
+        props: ['department'],
+        data() {
+            return {
+                department_id: null,
+                department_list: [],
+                department: {},
+            }
         },
-        edit(department){
-            this.department = department
-            this.$emit('department_edit_data', department);
-            this.$router.push( {name: 'DepartmentEdit', props:{department: JSON.stringify(department)}});
+        async mounted() {
+            this.$forceUpdate();
+            let result = await axios.get("v1/department/list");
+            console.log(result);
+            if (result.data.status) {
+                this.department_list = result.data.data;
+            }
         },
-    },
-}
+        methods: {
+            edit(id) {
+                // this.department = department
+                this.$router.push( {name: 'DepartmentEdit', params:{'id' : id}});
+            },
+            remove(id){
+                axios.delete("v1/department/remove/" + id);
+                this.$router.push( {name: 'DepartmentList'});
+            }
+        },
+    }
 </script>
 
 <style>

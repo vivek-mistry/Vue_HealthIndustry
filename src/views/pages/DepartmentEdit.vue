@@ -28,13 +28,13 @@
                             </div>
                             <!-- /.card-header -->
                             <div class="card-body">
-                                <form v-on:submit="createDepartment" method="post">
+                                <form v-on:submit="updateDepartment" method="post">
 
                                     <div class="row">
                                         <div class="col-6">
                                             <div class="form-group">
                                                 
-                                                <input type="text" class="form-control"  placeholder="Name">
+                                                <input type="text" class="form-control" v-model="department.name"  placeholder="Name">
                                             </div>
 
                                         </div>
@@ -43,15 +43,15 @@
                                     <div class="row">
                                         <div class="col-6">
                                             <div class="form-group">
-                                                <textarea class="form-control"  placeholder="Description"></textarea>
+                                                <textarea class="form-control" v-model="department.description" placeholder="Description"></textarea>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-6">
                                             <div class="form-group">
-                                                <input type="radio" name="gender"  value="1"> Active
-                                                <input type="radio" name="gender"  value="0"> Inactive
+                                                <input type="radio" name="gender" v-model="department.status" value="1"> Active
+                                                <input type="radio" name="gender" v-model="department.status" value="0"> Inactive
                                             </div>
                                         </div>
                                     </div>
@@ -86,45 +86,31 @@ import axios from "axios";
 
 export default {
     name: "DepartmentEdit",
-    
-    // props: ['department'],
-    // props:{
-    //     department: {}
-    // },
-    // setup(props) {
-    //     console.log(props)
-    // },  
     data(){
         return{
-            department_edit:{
+            department:{
                 name: null,
                 description: null,
                 status : null
             }
         }
-    },mounted() {
-        // console.log(this.$router.query)
-        // this.$emitt('department', (data) => {
-        //     this.department = data;
-        // })
-         
     },
-    // computed: {
-    // item() {
-    //     console.log(JSON.parse(this.$route.params.department)) 
-    // }
-    // },
+    async mounted() {
+        console.log(console.log(this.$route.params.id))
+        
+         this.departmentEdit();
+    },
     methods: {
-        createDepartment(e){
+        updateDepartment(e){
             e.preventDefault();
             
-            let result = axios.post("v1/department/store", this.department);
+            let result = axios.put("v1/department/update/"+this.department.id, this.department);
             this.$router.push( {name: 'DepartmentList'});
         },
-        departmentEdit(emit){
-            console.log(emit);
-            this.department_edit = emit;
-
+        async departmentEdit(){
+            let response = await axios.get("v1/department/edit/"+this.$route.params.id);
+            console.log("this.department", response);
+            this.department = response.data.data;
         }
     },
 }
