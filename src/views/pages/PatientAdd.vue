@@ -28,86 +28,74 @@
                             </div>
                             <!-- /.card-header -->
                             <div class="card-body">
-                                <form action="../../index3.html" method="post">
+                                <form v-on:submit="createPatient" method="post">
 
                                     <div class="row">
                                         <div class="col-6">
                                             <div class="form-group">
-                                                <input type="text" class="form-control" placeholder="First Name">
+                                                <input type="text" class="form-control" v-model="patient.first_name" placeholder="First Name">
                                             </div>
 
                                         </div>
                                         <div class="col-6">
                                             <div class="form-group">
-                                                <input type="text" class="form-control" placeholder="Last Name">
+                                                <input type="text" class="form-control" v-model="patient.last_name" placeholder="Last Name">
                                             </div>
 
                                         </div>
                                         <div class="col-6">
                                             <div class="form-group">
-                                                <input type="text" class="form-control" placeholder="Email">
+                                                <input type="text" class="form-control" v-model="patient.mobile_number" placeholder="Mobile Number">
                                             </div>
 
                                         </div>
                                         <div class="col-6">
                                             <div class="form-group">
-                                                <input type="text" class="form-control" placeholder="Password">
+                                                <input type="text" class="form-control" v-model="patient.aadhar_card_number" placeholder="Aadhar Card Number">
                                             </div>
 
                                         </div>
                                         <div class="col-6">
                                             <div class="form-group">
-                                                <input type="text" class="form-control" placeholder="Designation">
+                                                <input type="text" class="form-control" v-model="patient.profile_picture" placeholder="Profile Picture">
                                             </div>
 
                                         </div>
                                         <div class="col-6">
                                             <div class="form-group">
-                                                <input type="text" class="form-control" placeholder="Department">
+                                                <input type="date" class="form-control" v-model="patient.date_of_birth" placeholder="Aadhar Card Number">
                                             </div>
 
                                         </div>
                                         <div class="col-6">
                                             <div class="form-group">
-                                                <input type="text" class="form-control" placeholder="Address">
+                                                <select class="form-control" v-model="patient.blood_group" placeholder="Select Blood Group">
+                                                    <option value="" selected>Select Blood Group</option>
+                                                    <option value="A+">A+</option>
+                                                    <option value="B+">B+</option>
+                                                    <option value="A-">A-</option>
+                                                    <option value="B-">B-</option>
+                                                </select>
+                                            </div>
+
+                                        </div>
+                                        
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <input type="radio" name="gender" v-model="patient.gender" value="Male"> Male
+                                                <input type="radio" name="gender" v-model="patient.gender" value="Female"> Female
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" v-model="patient.address" placeholder="Address">
                                             </div>
 
                                         </div>
                                         <div class="col-6">
                                             <div class="form-group">
-                                                <input type="text" class="form-control" placeholder="Specialist">
-                                            </div>
-
-                                        </div>
-                                        <div class="col-6">
-                                            <div class="form-group">
-                                                <input type="text" class="form-control" placeholder="Mobile Number">
-                                            </div>
-
-                                        </div>
-                                        <div class="col-6">
-                                            <div class="form-group">
-                                                <input type="text" class="form-control"
-                                                    placeholder="Short Biography">
-                                            </div>
-
-                                        </div>
-                                        <div class="col-6">
-                                            <div class="form-group">
-                                                <input type="text" class="form-control" placeholder="Date of birth">
-                                            </div>
-
-                                        </div>
-                                        <div class="col-6">
-                                            <div class="form-group">
-                                                <input type="text" class="form-control" placeholder="Blood Group">
-                                            </div>
-
-                                        </div>
-                                        <div class="col-6">
-                                            <div class="form-group">
-                                                <input type="radio" name="gender" value="Male"> Male
-                                                <input type="radio" name="gender" value="Female"> Female
+                                                <input type="radio" name="status" v-model="patient.status" value="0"> Inactive
+                                                <input type="radio" name="status" v-model="patient.status" value="1"> Active
                                             </div>
                                         </div>
                                     </div>
@@ -138,8 +126,33 @@
 </template>
 
 <script>
+import { PatientService } from '../../services/PatientService';
 export default {
-    name: 'PatientAdd'
+    name: 'PatientAdd',
+    data(){
+        return{
+            patient:{
+                first_name: null,
+                last_name: null,
+                mobile_number : null,
+                aadhar_card_number: null,
+                profile_picture:null,
+                date_of_birth: null,
+                blood_group:null,
+                gender : null,
+                address: null,
+                status: null
+            }
+        }
+    },
+    methods: {
+        createPatient(e){
+            e.preventDefault();
+            PatientService.store(this.patient);
+            // let result = axios.post("v1/department/store", this.department);
+            this.$router.push( {name: 'PatientList'});
+        }
+    },
 }
 </script>
 

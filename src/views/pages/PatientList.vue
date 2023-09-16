@@ -34,34 +34,30 @@
                                 <table id="example2" class="table table-bordered table-hover">
                                     <thead>
                                         <tr>
-                                            <th>Rendering engine</th>
-                                            <th>Browser</th>
-                                            <th>Platform(s)</th>
-                                            <th>Engine version</th>
-                                            <th>CSS grade</th>
+                                            <th>Name</th>
+                                            <th>Mobile Number</th>
+                                            <th>Aadhar Card</th>
+                                            <th>Date Of Birth</th>
+                                            <th>Blood Group</th>
+                                            <th>Gender</th>
+                                            <th>Status</th>
+                                            <th>Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td>Trident</td>
-                                            <td>Internet
-                                                Explorer 4.0
-                                            </td>
-                                            <td>Win 95+</td>
-                                            <td> 4</td>
-                                            <td>X</td>
+                                        <tr v-for="patient in patient_list">
+                                            <td>{{ patient.first_name+ ' ' + patient.last_name }}</td>
+                                            <td>{{ patient.mobile_number }}</td>
+                                            <td>{{ patient.aadhar_card_number }}</td>
+                                            <td>{{ patient.date_of_birth }}</td>
+                                            <td>{{ patient.blood_group }}</td>
+                                            <td>{{ patient.gender }}</td>
+                                            <td>{{ patient.status == 1 ? "Active" : "Inactive"  }}</td>
+                                            <td>Edit | Delete</td>
                                         </tr>
                                         
                                     </tbody>
-                                    <tfoot>
-                                        <tr>
-                                            <th>Rendering engine</th>
-                                            <th>Browser</th>
-                                            <th>Platform(s)</th>
-                                            <th>Engine version</th>
-                                            <th>CSS grade</th>
-                                        </tr>
-                                    </tfoot>
+                                    
                                 </table>
                             </div>
                             <!-- /.card-body -->
@@ -79,14 +75,25 @@
 </template>
 
 <script>
+    import axios from "axios";
+    import {PatientService} from '@/services/PatientService'
     export default {
         name: "PatientList",
         data()
         {
             return{
-                
+                patient_list : {}
             }
-        }
+        },
+        mounted() {
+            PatientService.getAll().then(response => {
+                this.patient_list = response;
+            });
+            console.log(this.patient_list);
+        },
+        methods: {
+            
+        },
     }
 </script>
 
